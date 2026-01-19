@@ -21,7 +21,7 @@
 
     .paper {
       background: #fff;
-      padding: 2.5rem 2rem;
+      padding: 2rem 1.5rem;
       border: 2px solid #1f2a44;
       box-shadow: 5px 5px 0 #1f2a44;
       text-align: center;
@@ -29,6 +29,7 @@
       max-width: 420px;
       position: relative;
       color: #1f2a44;
+      overflow: hidden;
     }
 
     .paper::before {
@@ -49,7 +50,7 @@
 
     h1 {
       font-size: 2rem;
-      margin-bottom: 2.2rem;
+      margin-bottom: 2rem;
       transform: rotate(-1deg);
       line-height: 1.2;
     }
@@ -58,8 +59,9 @@
       display: flex;
       justify-content: space-between;
       gap: 1rem;
-      margin-top: 2.5rem;
+      margin-top: 2rem;
       position: relative;
+      flex-wrap: wrap;
     }
 
     button {
@@ -72,6 +74,7 @@
       cursor: pointer;
       box-shadow: 2px 2px 0 #1f2a44;
       transform: rotate(-1deg);
+      min-width: 120px;
     }
 
     button:first-child {
@@ -109,13 +112,31 @@
       }
     }
 
+    /* MOBILE OPTIMIZATION */
     @media (max-width: 480px) {
       h1 {
-        font-size: 1.7rem;
+        font-size: 1.6rem;
+      }
+
+      .choices {
+        flex-direction: column;
+        gap: 0.8rem;
       }
 
       button {
         font-size: 1.4rem;
+        padding: 0.6rem 0.5rem;
+      }
+
+      #noBtn {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none !important;
+      }
+
+      .heart {
+        font-size: 1.2rem;
       }
     }
   </style>
@@ -141,7 +162,7 @@
       const maxY = paper.clientHeight - noBtn.clientHeight;
       const x = Math.random() * maxX;
       const y = Math.random() * maxY;
-      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+      noBtn.style.transform = `translate(${x}px, ${y}px) rotate(-1deg)`;
     }
 
     noBtn.addEventListener('mouseover', moveNo);
@@ -159,7 +180,7 @@
       for (let i = 0; i < 10; i++) {
         const heart = document.createElement('div');
         heart.className = 'heart';
-        heart.textContent = '❤ 💕';
+        heart.textContent = '❤';
         heart.style.left = Math.random() * 80 + 10 + '%';
         heart.style.bottom = '40px';
         paper.appendChild(heart);
