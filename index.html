@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Una domanda per Sara</title>
+  <title>Vuoi essere il nostro candidato sindaco?</title>
 
-  <!-- Font stile scrittura a mano -->
   <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
 
   <style>
@@ -15,57 +14,59 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
+      padding: 1rem;
     }
 
     .paper {
       background: #fff;
-      padding: 3rem 3.5rem;
+      padding: 2.5rem 2rem;
       border: 2px solid #1f2a44;
-      box-shadow: 6px 6px 0 #1f2a44;
+      box-shadow: 5px 5px 0 #1f2a44;
       text-align: center;
+      width: 100%;
       max-width: 420px;
       position: relative;
       color: #1f2a44;
     }
 
-    /* righe del quaderno */
     .paper::before {
       content: '';
       position: absolute;
       top: 0;
-      left: 20px;
-      right: 20px;
+      left: 16px;
+      right: 16px;
       height: 100%;
       background: repeating-linear-gradient(
         to bottom,
         transparent,
-        transparent 22px,
-        rgba(31,42,68,0.08) 23px
+        transparent 20px,
+        rgba(31,42,68,0.08) 21px
       );
       pointer-events: none;
     }
 
     h1 {
-      font-size: 2.3rem;
-      margin-bottom: 2.5rem;
+      font-size: 2rem;
+      margin-bottom: 2.2rem;
       transform: rotate(-1deg);
-      letter-spacing: 1px;
+      line-height: 1.2;
     }
 
     .choices {
       display: flex;
       justify-content: space-between;
-      margin-top: 3rem;
-      padding: 0 1rem;
+      gap: 1rem;
+      margin-top: 2.5rem;
       position: relative;
     }
 
     button {
+      flex: 1;
       font-family: inherit;
-      font-size: 1.6rem;
-      padding: 0.4rem 1.2rem;
+      font-size: 1.5rem;
+      padding: 0.7rem 0.5rem;
       border: 2px solid #1f2a44;
       background: #fff;
       cursor: pointer;
@@ -73,26 +74,26 @@
       transform: rotate(-1deg);
     }
 
-    button:nth-child(1) {
+    button:first-child {
       transform: rotate(1deg);
     }
 
     #noBtn {
       position: absolute;
-      right: 1rem;
+      right: 0;
+      top: 0;
     }
 
     #result {
-      margin-top: 3rem;
-      font-size: 1.8rem;
+      margin-top: 2.5rem;
+      font-size: 1.7rem;
       font-weight: bold;
     }
 
-    /* cuoricini */
     .heart {
       position: absolute;
       color: #d6336c;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       animation: floatUp 2s ease-out forwards;
       pointer-events: none;
     }
@@ -104,7 +105,17 @@
       }
       to {
         opacity: 0;
-        transform: translateY(-80px) scale(1.5);
+        transform: translateY(-70px) scale(1.4);
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.7rem;
+      }
+
+      button {
+        font-size: 1.4rem;
       }
     }
   </style>
@@ -125,11 +136,16 @@
     const noBtn = document.getElementById('noBtn');
     const paper = document.getElementById('paper');
 
-    noBtn.addEventListener('mouseover', () => {
-      const x = Math.random() * 220 - 110;
-      const y = Math.random() * 140 - 70;
+    function moveNo() {
+      const maxX = paper.clientWidth - noBtn.clientWidth;
+      const maxY = paper.clientHeight - noBtn.clientHeight;
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
       noBtn.style.transform = `translate(${x}px, ${y}px)`;
-    });
+    }
+
+    noBtn.addEventListener('mouseover', moveNo);
+    noBtn.addEventListener('touchstart', moveNo);
 
     function vote(answer) {
       const result = document.getElementById('result');
@@ -140,14 +156,13 @@
     }
 
     function spawnHearts() {
-      for (let i = 0; i < 12; i++) {
+      for (let i = 0; i < 10; i++) {
         const heart = document.createElement('div');
         heart.className = 'heart';
         heart.textContent = '❤';
         heart.style.left = Math.random() * 80 + 10 + '%';
         heart.style.bottom = '40px';
         paper.appendChild(heart);
-
         setTimeout(() => heart.remove(), 2000);
       }
     }
